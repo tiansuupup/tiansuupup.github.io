@@ -164,7 +164,9 @@ section {
   max-width: 1200px
  
 }
-
+.main-description{
+  text-align: justify;
+}
 .gallery-title {
   padding: 5rem 0rem;
   text-align: center;
@@ -284,6 +286,26 @@ section img{
   .header-content .left-header .image {
     margin: 0 auto;
     width: 90%;
+  }
+  .game-description{
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    grid-gap: 3rem;
+    padding: 3rem 0rem;
+    margin: 0 auto;
+    padding: 0 !important;
+  }
+
+  .gallery-content {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    grid-gap: 3px;
+    justify-content: center;
+  } 
+
+  iframe{
+    width: 350px;
+    height: auto;
   }
 
   .controls {
