@@ -314,13 +314,13 @@ section {
   width: 90%;
 }
 .about-stats .progress-bars .progress-bar .progress-con .progress .Unreal {
-  width: 75%;
+  width: 60%;
 }
 .about-stats .progress-bars .progress-bar .progress-con .progress .csharp {
   width: 90%;
 }
 .about-stats .progress-bars .progress-bar .progress-con .progress .cpp {
-  width: 60%;
+  width: 50%;
 }
 .about-stats .progress-bars .progress-bar .progress-con .progress .lua {
   width: 60%;
