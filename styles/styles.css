@@ -648,8 +648,11 @@ section {
 }
 
 .contact-content-con .left-contact .image-grid img {
-    width: 100%;
-    height: auto;
+  width: 100%;
+  height: auto;
+  max-width: 300px; /* 设置最大宽度 */
+  max-height: 400px; /* 设置最大高度 */
+  object-fit: contain; /* 确保图片按比例缩放 */
 }
 
 .contact-content-con .right-contact {
