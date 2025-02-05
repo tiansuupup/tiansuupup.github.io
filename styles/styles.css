@@ -639,6 +639,19 @@ section {
   justify-content: center;
   font-size: 1.3rem;
 }
+
+.contact-content-con .left-contact .image-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 20px; /* 调整图片之间的间距 */
+  margin-top: 20px; /* 增加与上面内容的距离 */
+}
+
+.contact-content-con .left-contact .image-grid img {
+    width: 100%;
+    height: auto;
+}
+
 .contact-content-con .right-contact {
   flex: 3;
   margin-left: 3rem;
@@ -669,6 +682,7 @@ section {
   display: flex;
   justify-content: flex-start;
 }
+
 
 /*Independed components*/
 .btn-container{
@@ -1022,6 +1036,7 @@ section {
   .main-title h2 .bg-text {
     font-size: 4rem;
   }
+
 
 }
 
