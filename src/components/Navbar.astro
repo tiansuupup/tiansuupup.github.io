@@ -1,0 +1,109 @@
+---
+const navLinks = [
+  { label: 'About',      href: '#about' },
+  { label: 'Projects',   href: '#projects' },
+  { label: 'Experience', href: '#experience' },
+  { label: 'Contact',    href: '#contact' },
+];
+---
+
+<header
+  id="navbar"
+  class="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
+>
+  <nav class="mx-auto max-w-6xl px-6 py-4 flex items-center justify-between">
+    <!-- Logo -->
+    <a
+      href="#hero"
+      class="font-display text-xl font-bold text-neon-cyan tracking-widest hover:text-white transition-colors duration-200"
+    >
+      &lt;DEV /&gt;
+    </a>
+
+    <!-- Desktop nav links -->
+    <ul class="hidden md:flex items-center gap-8">
+      {navLinks.map(({ label, href }) => (
+        <li>
+          <a
+            href={href}
+            class="nav-link font-mono text-sm text-gray-400 hover:text-neon-cyan transition-colors duration-200 relative group"
+          >
+            <span class="text-neon-pink mr-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200">//</span>
+            {label}
+            <span class="absolute -bottom-0.5 left-0 w-0 h-px bg-neon-cyan group-hover:w-full transition-all duration-300"></span>
+          </a>
+        </li>
+      ))}
+    </ul>
+
+    <!-- Mobile hamburger -->
+    <button
+      id="mobile-menu-btn"
+      class="md:hidden text-gray-400 hover:text-neon-cyan transition-colors duration-200"
+      aria-label="Toggle mobile menu"
+      aria-expanded="false"
+    >
+      <svg id="icon-menu" class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+      </svg>
+      <svg id="icon-close" class="w-6 h-6 hidden" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+  </nav>
+
+  <!-- Mobile menu -->
+  <div
+    id="mobile-menu"
+    class="md:hidden hidden border-t border-white/10 bg-bg-surface/95 backdrop-blur-md"
+  >
+    <ul class="px-6 py-4 flex flex-col gap-4">
+      {navLinks.map(({ label, href }) => (
+        <li>
+          <a
+            href={href}
+            class="mobile-nav-link font-mono text-sm text-gray-400 hover:text-neon-cyan transition-colors duration-200"
+          >
+            <span class="text-neon-pink mr-2">//</span>{label}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</header>
+
+<script>
+  // Frosted-glass effect on scroll
+  const navbar = document.getElementById('navbar')!;
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 20) {
+      navbar.classList.add('bg-bg-surface/80', 'backdrop-blur-md', 'border-b', 'border-white/5', 'shadow-lg');
+    } else {
+      navbar.classList.remove('bg-bg-surface/80', 'backdrop-blur-md', 'border-b', 'border-white/5', 'shadow-lg');
+    }
+  }, { passive: true });
+
+  // Mobile menu toggle
+  const btn = document.getElementById('mobile-menu-btn')!;
+  const menu = document.getElementById('mobile-menu')!;
+  const iconMenu = document.getElementById('icon-menu')!;
+  const iconClose = document.getElementById('icon-close')!;
+
+  btn.addEventListener('click', () => {
+    const isOpen = !menu.classList.contains('hidden');
+    menu.classList.toggle('hidden', isOpen);
+    iconMenu.classList.toggle('hidden', !isOpen);
+    iconClose.classList.toggle('hidden', isOpen);
+    btn.setAttribute('aria-expanded', String(!isOpen));
+  });
+
+  // Close mobile menu when a link is clicked
+  document.querySelectorAll('.mobile-nav-link').forEach(link => {
+    link.addEventListener('click', () => {
+      menu.classList.add('hidden');
+      iconMenu.classList.remove('hidden');
+      iconClose.classList.add('hidden');
+      btn.setAttribute('aria-expanded', 'false');
+    });
+  });
+</script>

@@ -1,0 +1,174 @@
+---
+interface TimelineItem {
+  date: string;
+  role: string;
+  company: string;
+  type: 'work' | 'project';
+  description: string;
+  tags: string[];
+}
+
+const timeline: TimelineItem[] = [
+  {
+    date: '2024 — Present',
+    role: 'Senior Game Developer',
+    company: 'Neon Works Studio',
+    type: 'work',
+    description:
+      'Leading a 6-person team building a co-op action RPG for PC and console. Responsible for core combat systems, network architecture, and CI/CD pipeline. Reduced build times by 60% with incremental build caching.',
+    tags: ['Unity', 'C#', 'Netcode', 'CI/CD'],
+  },
+  {
+    date: 'Mar 2024',
+    role: 'Neon Labyrinth — Launch',
+    company: 'Solo Project',
+    type: 'project',
+    description:
+      'Released a top-down roguelike on itch.io and Steam Early Access. 50K+ downloads in the first month, rated #3 trending on itch.io. All code, art, and music were self-produced over 8 months of weekends.',
+    tags: ['Unity', 'C#', 'Steam', 'itch.io'],
+  },
+  {
+    date: '2022 — 2023',
+    role: 'Game Developer',
+    company: 'Indie Co.',
+    type: 'work',
+    description:
+      'Shipped two mobile titles from concept to App Store / Google Play. Integrated ad SDKs, analytics, and live-ops event systems. Mentored two junior developers through code reviews and pair sessions.',
+    tags: ['Unreal', 'C++', 'Mobile', 'Blueprint'],
+  },
+  {
+    date: '2020 — 2022',
+    role: 'Junior Developer',
+    company: 'TechLab Startup',
+    type: 'work',
+    description:
+      'Built interactive web tools and internal dashboards using React and Node.js. First exposure to real-time 3D through an internal Three.js project — the moment I knew I wanted to make games.',
+    tags: ['React', 'Node.js', 'Three.js', 'TypeScript'],
+  },
+];
+---
+
+<section id="experience" class="py-28 px-6 relative overflow-hidden">
+  <!-- Subtle top/bottom fades -->
+  <div class="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-bg-surface to-transparent pointer-events-none" aria-hidden="true"></div>
+  <div class="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-bg-surface to-transparent pointer-events-none" aria-hidden="true"></div>
+
+  <div class="relative mx-auto max-w-5xl">
+    <!-- Section heading -->
+    <p class="font-mono text-xs text-neon-pink tracking-[0.3em] uppercase mb-3">// Section 03</p>
+    <h2 class="font-display text-4xl md:text-5xl font-bold text-white mb-4">Experience</h2>
+    <div class="w-16 h-0.5 bg-neon-cyan mb-16"></div>
+
+    <!-- Timeline -->
+    <div class="relative timeline-container">
+      <!-- Vertical line: left-4 on mobile, left-1/2 on desktop -->
+      <div
+        class="absolute left-[17px] lg:left-1/2 top-0 bottom-0 w-px lg:-translate-x-1/2"
+        style="background: linear-gradient(to bottom, transparent 0%, rgba(0,255,209,0.25) 15%, rgba(0,255,209,0.25) 85%, transparent 100%)"
+        aria-hidden="true"
+      ></div>
+
+      {timeline.map((item, i) => {
+        const isLeft = i % 2 === 0;
+        const nodeColor = item.type === 'project' ? '#FF2E97' : '#00FFD1';
+        const tagColor  = item.type === 'project' ? '#FF2E97' : '#00FFD1';
+
+        return (
+          <div
+            class:list={[
+              'timeline-item relative pl-10 lg:pl-0 mb-14 lg:mb-20',
+              isLeft ? 'from-left' : 'from-right',
+            ]}
+            style={`transition-delay: ${i * 110}ms`}
+          >
+            <!-- Node dot (mobile: left-fixed; desktop: centre) -->
+            <div
+              class="absolute left-[17px] lg:left-1/2 top-[6px] w-[14px] h-[14px] rounded-full border-2 border-bg-dark -translate-x-1/2 z-10"
+              style={`background:${nodeColor}; box-shadow: 0 0 10px ${nodeColor}99, 0 0 20px ${nodeColor}44`}
+              aria-hidden="true"
+            ></div>
+
+            <!-- Card positioned to left or right half on desktop -->
+            <div class:list={['lg:w-[46%]', isLeft ? 'lg:mr-auto lg:pr-12' : 'lg:ml-auto lg:pl-12']}>
+              <div
+                class="group relative bg-bg-surface border border-white/5 rounded-xl p-5 transition-all duration-300 hover:border-white/12"
+                style={`box-shadow: 0 2px 16px rgba(0,0,0,0.3)`}
+              >
+                <!-- Hover accent line at top -->
+                <div
+                  class="absolute inset-x-0 top-0 h-px rounded-t-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                  style={`background: linear-gradient(90deg, transparent, ${nodeColor}80, transparent)`}
+                ></div>
+
+                <!-- Type badge + date -->
+                <div class="flex flex-wrap items-center gap-2 mb-2.5">
+                  <span
+                    class="font-mono text-[10px] font-bold px-1.5 py-0.5 rounded uppercase tracking-wider"
+                    style={`color:${nodeColor}; background:${nodeColor}18; border:1px solid ${nodeColor}30`}
+                  >
+                    {item.type === 'project' ? '◆ Project' : '● Work'}
+                  </span>
+                  <span class="font-mono text-[11px] text-gray-500">{item.date}</span>
+                </div>
+
+                <!-- Role & company -->
+                <h3 class="font-display text-base md:text-lg font-bold text-white mb-0.5 leading-snug">
+                  {item.role}
+                </h3>
+                <p class="font-mono text-xs mb-3" style={`color:${nodeColor}88`}>{item.company}</p>
+
+                <!-- Description -->
+                <p class="text-gray-400 text-sm leading-relaxed mb-4">{item.description}</p>
+
+                <!-- Tags -->
+                <div class="flex flex-wrap gap-1.5">
+                  {item.tags.map((tag) => (
+                    <span class="font-mono text-[10px] text-gray-600 px-1.5 py-0.5 bg-white/3 rounded border border-white/5">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Initial hidden state — JS will add .visible when in view */
+  .timeline-item {
+    opacity: 0;
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .timeline-item.from-left  { transform: translateX(-28px); }
+  .timeline-item.from-right { transform: translateX(28px); }
+
+  /* Mobile: everything slides from left */
+  @media (max-width: 1023px) {
+    .timeline-item.from-right { transform: translateX(-28px); }
+  }
+
+  .timeline-item.visible {
+    opacity: 1;
+    transform: translateX(0);
+  }
+</style>
+
+<script>
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target); // fire once
+        }
+      });
+    },
+    { threshold: 0.12 },
+  );
+
+  document.querySelectorAll('.timeline-item').forEach((el) => observer.observe(el));
+</script>

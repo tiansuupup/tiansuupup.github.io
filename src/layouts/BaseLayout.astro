@@ -1,0 +1,99 @@
+---
+import { ClientRouter } from 'astro:transitions';
+import '../styles/global.css';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+
+interface Props {
+  title?: string;
+  description?: string;
+  ogImage?: string;
+}
+
+const {
+  title = 'Portfolio | Game Developer',
+  description = 'Personal portfolio of a game developer — showcasing games, creative code, and interactive experiences.',
+  ogImage = '/og-image.png',
+} = Astro.props;
+
+const siteURL   = Astro.site ?? new URL('https://yourportfolio.dev');
+const canonical = new URL(Astro.url.pathname, siteURL).href;
+const ogImageAbs = new URL(ogImage, siteURL).href;
+---
+
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="theme-color" content="#0a0a0f" />
+
+    <!-- SEO -->
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+
+    <!-- Open Graph -->
+    <meta property="og:type"        content="website" />
+    <meta property="og:url"         content={canonical} />
+    <meta property="og:title"       content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image"       content={ogImageAbs} />
+    <meta property="og:site_name"   content="Portfolio" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card"        content="summary_large_image" />
+    <meta name="twitter:title"       content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image"       content={ogImageAbs} />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+
+    <!-- Fonts — preconnect first, then stylesheet -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Astro View Transitions (page navigation animations) -->
+    <ClientRouter />
+  </head>
+
+  <body class="bg-bg-dark text-gray-100 font-sans antialiased">
+    <!-- a11y: skip navigation -->
+    <a href="#main-content" class="skip-link">Skip to content</a>
+
+    <Navbar />
+
+    <main id="main-content" tabindex="-1">
+      <slot />
+    </main>
+
+    <Footer />
+
+    <!-- Global scroll-reveal: adds .in-view when [data-animate] elements enter viewport -->
+    <script>
+      const revealObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              // Respect stagger-delay set inline via style
+              entry.target.classList.add('in-view');
+              revealObserver.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.1, rootMargin: '-32px 0px' },
+      );
+
+      document
+        .querySelectorAll('[data-animate]')
+        .forEach((el) => revealObserver.observe(el));
+    </script>
+  </body>
+</html>
