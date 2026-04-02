@@ -1,8 +1,6 @@
 import { useRef, useState } from 'react';
 import { motion, useInView } from 'framer-motion';
 
-// ─── Data ─────────────────────────────────────────────────────────────────────
-
 interface Skill {
   name: string;
   level: number;
@@ -10,8 +8,8 @@ interface Skill {
 
 interface SkillCategory {
   id: string;
-  label: string;     // display name
-  tag: string;       // HUD-style tag e.g. "PRG"
+  label: string;
+  tag: string;
   color: string;
   skills: Skill[];
 }
@@ -19,52 +17,50 @@ interface SkillCategory {
 const SKILL_DATA: SkillCategory[] = [
   {
     id: 'programming',
-    label: 'Programming',
+    label: '编程能力',
     tag: 'PRG',
     color: '#00FFD1',
     skills: [
-      { name: 'C#',         level: 88 },
-      { name: 'C++',        level: 80 },
-      { name: 'TypeScript', level: 75 },
-      { name: 'Python',     level: 62 },
+      { name: 'C#', level: 90 },
+      { name: 'Lua', level: 90 },
+      { name: 'C++', level: 50 },
+      { name: 'Python', level: 75 },
     ],
   },
   {
     id: 'engines',
-    label: 'Game Engines',
+    label: '游戏引擎',
     tag: 'ENG',
     color: '#FF2E97',
     skills: [
-      { name: 'Unity',         level: 93 },
-      { name: 'Unreal Engine', level: 80 },
-      { name: 'Godot',         level: 58 },
+      { name: 'Unity', level: 90 },
+      { name: 'Roblox Studio', level: 90 },
+      { name: '虚幻引擎', level: 60 },
     ],
   },
   {
-    id: 'web',
-    label: 'Web & Creative',
-    tag: 'WEB',
+    id: 'design',
+    label: '策划与系统',
+    tag: 'SYS',
     color: '#FFD700',
     skills: [
-      { name: 'React / Astro', level: 72 },
-      { name: 'Three.js',      level: 65 },
-      { name: 'GLSL Shaders',  level: 55 },
+      { name: '策划案', level: 90 },
+      { name: '玩法设计', level: 85 },
+      { name: '行为树', level: 88 },
     ],
   },
   {
-    id: 'tools',
-    label: 'Tools',
-    tag: 'SYS',
+    id: 'creative',
+    label: '扩展能力',
+    tag: 'XRT',
     color: '#00FFD1',
     skills: [
-      { name: 'Git / GitHub', level: 88 },
-      { name: 'Blender',      level: 62 },
-      { name: 'Photoshop',    level: 70 },
+      { name: 'XR 开发', level: 60 },
+      { name: '3D 建模', level: 70 },
+      { name: '2D 美术', level: 40 },
     ],
   },
 ];
-
-// ─── SkillBar ──────────────────────────────────────────────────────────────────
 
 function SkillBar({
   skill,
@@ -78,8 +74,8 @@ function SkillBar({
   index: number;
 }) {
   const [hovered, setHovered] = useState(false);
-  const SEGMENTS = 20;
-  const filledSegments = Math.round((skill.level / 100) * SEGMENTS);
+  const segments = 20;
+  const filledSegments = Math.round((skill.level / 100) * segments);
 
   return (
     <motion.div
@@ -108,9 +104,8 @@ function SkillBar({
         </motion.span>
       </div>
 
-      {/* Segmented progress bar */}
       <div className="flex gap-0.5 h-2" role="progressbar" aria-valuenow={skill.level} aria-valuemin={0} aria-valuemax={100}>
-        {Array.from({ length: SEGMENTS }).map((_, i) => {
+        {Array.from({ length: segments }).map((_, i) => {
           const filled = i < filledSegments;
           return (
             <motion.div
@@ -125,10 +120,7 @@ function SkillBar({
                   ? {
                       opacity: filled ? (hovered ? 1 : 0.75) : 1,
                       scaleY: 1,
-                      boxShadow:
-                        filled && hovered
-                          ? `0 0 4px ${color}99`
-                          : 'none',
+                      boxShadow: filled && hovered ? `0 0 4px ${color}99` : 'none',
                     }
                   : { opacity: 0, scaleY: 0 }
               }
@@ -144,8 +136,6 @@ function SkillBar({
     </motion.div>
   );
 }
-
-// ─── SkillCategory block ───────────────────────────────────────────────────────
 
 function CategoryBlock({
   category,
@@ -163,7 +153,6 @@ function CategoryBlock({
       transition={{ duration: 0.5, delay: catIndex * 0.12 }}
       className="mb-6 last:mb-0"
     >
-      {/* Category header */}
       <div className="flex items-center gap-3 mb-3">
         <span
           className="font-mono text-[10px] font-bold tracking-widest px-1.5 py-0.5 rounded"
@@ -181,7 +170,6 @@ function CategoryBlock({
         <div className="flex-1 h-px" style={{ backgroundColor: `${category.color}22` }} />
       </div>
 
-      {/* Skills list */}
       <div className="space-y-3 pl-1">
         {category.skills.map((skill, i) => (
           <SkillBar
@@ -197,8 +185,6 @@ function CategoryBlock({
   );
 }
 
-// ─── SkillTree (exported island) ──────────────────────────────────────────────
-
 export function SkillTree() {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: '-80px 0px' });
@@ -209,19 +195,17 @@ export function SkillTree() {
       className="relative bg-bg-surface border border-white/5 rounded-lg overflow-hidden"
       style={{ boxShadow: '0 0 0 1px rgba(0,255,209,0.06), inset 0 0 40px rgba(0,0,0,0.4)' }}
     >
-      {/* HUD header bar */}
       <div className="flex items-center justify-between px-4 py-2.5 border-b border-white/5 bg-black/30">
         <div className="flex items-center gap-2">
           <div className="w-2 h-2 rounded-full bg-neon-pink animate-pulse" />
-          <span className="font-mono text-xs text-gray-500 tracking-widest">CHAR_STATS.EXE</span>
+          <span className="font-mono text-xs text-gray-500 tracking-widest">技能矩阵</span>
         </div>
         <div className="flex items-center gap-1.5">
-          <span className="font-mono text-[10px] text-gray-700">LVL</span>
-          <span className="font-mono text-xs font-bold text-neon-gold">99</span>
+          <span className="font-mono text-[10px] text-gray-700">编号</span>
+          <span className="font-mono text-xs font-bold text-neon-gold">TL</span>
         </div>
       </div>
 
-      {/* Corner scan-line decoration */}
       <div
         className="absolute inset-0 pointer-events-none opacity-[0.03]"
         style={{
@@ -230,16 +214,14 @@ export function SkillTree() {
         aria-hidden="true"
       />
 
-      {/* Skills */}
       <div className="p-5">
         {SKILL_DATA.map((cat, i) => (
           <CategoryBlock key={cat.id} category={cat} isInView={isInView} catIndex={i} />
         ))}
       </div>
 
-      {/* Bottom status bar */}
       <div className="px-4 py-2 border-t border-white/5 bg-black/20 flex items-center justify-between">
-        <span className="font-mono text-[10px] text-gray-700">STATUS: ACTIVE</span>
+        <span className="font-mono text-[10px] text-gray-700">状态：运行中</span>
         <div className="flex gap-1">
           {[...Array(5)].map((_, i) => (
             <motion.div

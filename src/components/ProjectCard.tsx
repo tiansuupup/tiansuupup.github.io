@@ -2,57 +2,92 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import type { ProjectItem } from './Projects';
 
-// ─── Cover gradient derived from primary tag ───────────────────────────────────
+function translateTag(tag: string): string {
+  const normalized = tag.toLowerCase();
+  const tagMap: Record<string, string> = {
+    design: '策划',
+    'live ops': '长线运营',
+    mobile: '移动端',
+    'game ai': '游戏 AI',
+    'behavior tree': '行为树',
+    fsm: '状态机',
+    'data visualization': '数据可视化',
+    research: '研究',
+    'serious game': '严肃游戏',
+    narrative: '叙事',
+    ui: '界面设计',
+    accessibility: '无障碍',
+    racing: '竞速',
+    ai: '人工智能',
+    stealth: '潜行',
+    tps: '第三人称射击',
+    demo: '演示',
+    adventure: '冒险',
+    puzzle: '解谜',
+    award: '获奖作品',
+    horror: '恐怖',
+    'rogue-lite': '肉鸽',
+    'ar/vr': 'AR/VR',
+    ar: '增强现实',
+    vr: '虚拟现实',
+    'card game': '纸牌',
+    moba: 'MOBA',
+    solo: '独立开发',
+    casual: '休闲',
+    platformer: '平台动作',
+  };
+
+  return tagMap[normalized] ?? tag;
+}
 
 function getCoverStyle(tags: string[]): { gradient: string; accentColor: string } {
   const first = tags[0]?.toLowerCase() ?? '';
-  if (first.includes('unity'))
+  if (first.includes('unity')) {
     return { gradient: 'linear-gradient(135deg, #020d1f 0%, #051d3d 60%, #0a3060 100%)', accentColor: '#00FFD1' };
-  if (first.includes('unreal'))
+  }
+  if (first.includes('roblox')) {
+    return { gradient: 'linear-gradient(135deg, #140b00 0%, #2f1700 60%, #553100 100%)', accentColor: '#FFD700' };
+  }
+  if (first.includes('unreal')) {
     return { gradient: 'linear-gradient(135deg, #150008 0%, #2d0012 60%, #4d0020 100%)', accentColor: '#FF2E97' };
-  if (first.includes('web') || first.includes('three'))
+  }
+  if (first.includes('design') || first.includes('moba') || first.includes('game ai')) {
     return { gradient: 'linear-gradient(135deg, #0f0c00 0%, #1f1800 60%, #332800 100%)', accentColor: '#FFD700' };
-  // Default: cyan/dark
+  }
   return { gradient: 'linear-gradient(135deg, #040c0a 0%, #061f18 60%, #083328 100%)', accentColor: '#00FFD1' };
 }
 
-// ─── Cover decoration: animated scan lines + icon ─────────────────────────────
-
 function CoverDecoration({ tags, accentColor }: { tags: string[]; accentColor: string }) {
-  const icon = tags[0]?.toLowerCase().includes('unity') ? '⬡'
-    : tags[0]?.toLowerCase().includes('unreal') ? '◈'
-    : tags[0]?.toLowerCase().includes('web') ? '◎'
-    : '◇';
+  const primary = tags[0]?.toLowerCase() ?? '';
+  const icon = primary.includes('unity') ? 'U'
+    : primary.includes('roblox') ? 'R'
+    : primary.includes('unreal') ? 'UE'
+    : primary.includes('xr') ? 'XR'
+    : 'G';
 
   return (
     <>
-      {/* Scan-line overlay */}
       <div
         className="absolute inset-0 opacity-[0.04] pointer-events-none"
         style={{ backgroundImage: 'repeating-linear-gradient(0deg,#fff 0,transparent 1px,transparent 3px)' }}
         aria-hidden="true"
       />
-      {/* Grid overlay */}
       <div
         className="absolute inset-0 opacity-[0.06] pointer-events-none"
         style={{ backgroundImage: `linear-gradient(${accentColor} 1px,transparent 1px),linear-gradient(90deg,${accentColor} 1px,transparent 1px)`, backgroundSize: '32px 32px' }}
         aria-hidden="true"
       />
-      {/* Central icon */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none" aria-hidden="true">
         <span className="text-5xl opacity-15" style={{ color: accentColor, fontFamily: 'monospace' }}>
           {icon}
         </span>
       </div>
-      {/* Corner accent */}
       <div className="absolute top-3 right-3 pointer-events-none" aria-hidden="true">
         <div className="w-2 h-2 rounded-full" style={{ backgroundColor: accentColor, boxShadow: `0 0 6px ${accentColor}` }} />
       </div>
     </>
   );
 }
-
-// ─── ProjectCard ──────────────────────────────────────────────────────────────
 
 export interface ProjectCardProps {
   project: ProjectItem;
@@ -65,19 +100,14 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
 
   const formattedDate = (() => {
     const [year, month] = project.date.split('-');
-    const monthName = month
-      ? new Date(Number(year), Number(month) - 1).toLocaleString('en', { month: 'short' })
-      : '';
-    return monthName ? `${monthName} ${year}` : year;
+    return month ? `${year}.${month}` : year;
   })();
 
   return (
     <motion.article
-      initial={{ opacity: 0, y: 24 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -16, scale: 0.96 }}
-      transition={{ duration: 0.45, delay: index * 0.07, ease: [0.22, 1, 0.36, 1] }}
-      layout
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.24, delay: index * 0.03, ease: 'easeOut' }}
       className="group relative flex flex-col rounded-xl overflow-hidden border border-white/5 bg-bg-surface cursor-pointer"
       style={{
         boxShadow: hovered
@@ -89,15 +119,20 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
       onHoverStart={() => setHovered(true)}
       onHoverEnd={() => setHovered(false)}
     >
-      {/* ── Cover image area ── */}
       <a href={`/projects/${project.id}`} className="block relative h-44 overflow-hidden" aria-label={project.title}>
-        <div className="absolute inset-0" style={{ background: gradient }} />
+        {project.cover ? (
+          <>
+            <img src={project.cover} alt="" className="absolute inset-0 w-full h-full object-cover" loading="lazy" />
+            <div className="absolute inset-0 bg-black/30" />
+          </>
+        ) : (
+          <div className="absolute inset-0" style={{ background: gradient }} />
+        )}
         <CoverDecoration tags={project.tags} accentColor={accentColor} />
 
-        {/* Hover overlay — slides up from bottom */}
         <motion.div
           className="absolute inset-x-0 bottom-0 px-4 py-4"
-          style={{ background: `linear-gradient(to top, rgba(10,10,15,0.97) 0%, rgba(10,10,15,0.85) 60%, transparent 100%)` }}
+          style={{ background: 'linear-gradient(to top, rgba(10,10,15,0.97) 0%, rgba(10,10,15,0.85) 60%, transparent 100%)' }}
           initial={{ y: '100%', opacity: 0 }}
           animate={{ y: hovered ? '0%' : '100%', opacity: hovered ? 1 : 0 }}
           transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
@@ -106,9 +141,7 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
         </motion.div>
       </a>
 
-      {/* ── Card footer ── */}
       <div className="flex flex-col gap-3 p-4 flex-1">
-        {/* Title + date */}
         <div className="flex items-start justify-between gap-2">
           <a
             href={`/projects/${project.id}`}
@@ -120,7 +153,6 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
           <span className="font-mono text-[10px] text-gray-600 whitespace-nowrap pt-0.5">{formattedDate}</span>
         </div>
 
-        {/* Tags */}
         <div className="flex flex-wrap gap-1.5">
           {project.tags.map((tag) => (
             <span
@@ -128,12 +160,11 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
               className="font-mono text-[10px] px-1.5 py-0.5 rounded"
               style={{ color: accentColor, backgroundColor: `${accentColor}14`, border: `1px solid ${accentColor}30` }}
             >
-              {tag}
+              {translateTag(tag)}
             </span>
           ))}
         </div>
 
-        {/* Links row */}
         <div className="flex gap-3 mt-auto pt-2 border-t border-white/5">
           {project.github && (
             <a
@@ -147,7 +178,7 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
               GitHub
             </a>
           )}
-          {project.demo && (
+          {/* {project.demo && (
             <a
               href={project.demo}
               target="_blank"
@@ -156,16 +187,16 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
               style={{ color: accentColor }}
               onClick={(e) => e.stopPropagation()}
             >
-              Live Demo
+              查看项目
               <svg className="w-3 h-3" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
             </a>
-          )}
+          )} */}
           <a
             href={`/projects/${project.id}`}
             className="font-mono text-[11px] text-gray-600 hover:text-gray-300 transition-colors duration-200 flex items-center gap-1"
             style={!project.demo ? { marginLeft: 'auto' } : {}}
           >
-            Read more →
+            详情 -&gt;
           </a>
         </div>
       </div>

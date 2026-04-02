@@ -1,9 +1,9 @@
 ---
 const navLinks = [
-  { label: 'About',      href: '#about' },
-  { label: 'Projects',   href: '#projects' },
-  { label: 'Experience', href: '#experience' },
-  { label: 'Contact',    href: '#contact' },
+  { label: '简介', href: '#about' },
+  { label: '作品', href: '#projects' },
+  { label: '经历', href: '#experience' },
+  { label: '联系', href: '#contact' },
 ];
 ---
 
@@ -12,15 +12,13 @@ const navLinks = [
   class="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
 >
   <nav class="mx-auto max-w-6xl px-6 py-4 flex items-center justify-between">
-    <!-- Logo -->
-    <a
+    <!-- <a
       href="#hero"
       class="font-display text-xl font-bold text-neon-cyan tracking-widest hover:text-white transition-colors duration-200"
     >
-      &lt;DEV /&gt;
-    </a>
+      upup
+    </a> -->
 
-    <!-- Desktop nav links -->
     <ul class="hidden md:flex items-center gap-8">
       {navLinks.map(({ label, href }) => (
         <li>
@@ -36,11 +34,10 @@ const navLinks = [
       ))}
     </ul>
 
-    <!-- Mobile hamburger -->
     <button
       id="mobile-menu-btn"
       class="md:hidden text-gray-400 hover:text-neon-cyan transition-colors duration-200"
-      aria-label="Toggle mobile menu"
+      aria-label="切换菜单"
       aria-expanded="false"
     >
       <svg id="icon-menu" class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -52,7 +49,6 @@ const navLinks = [
     </button>
   </nav>
 
-  <!-- Mobile menu -->
   <div
     id="mobile-menu"
     class="md:hidden hidden border-t border-white/10 bg-bg-surface/95 backdrop-blur-md"
@@ -73,7 +69,6 @@ const navLinks = [
 </header>
 
 <script>
-  // Frosted-glass effect on scroll
   const navbar = document.getElementById('navbar')!;
   window.addEventListener('scroll', () => {
     if (window.scrollY > 20) {
@@ -83,7 +78,6 @@ const navLinks = [
     }
   }, { passive: true });
 
-  // Mobile menu toggle
   const btn = document.getElementById('mobile-menu-btn')!;
   const menu = document.getElementById('mobile-menu')!;
   const iconMenu = document.getElementById('icon-menu')!;
@@ -97,8 +91,7 @@ const navLinks = [
     btn.setAttribute('aria-expanded', String(!isOpen));
   });
 
-  // Close mobile menu when a link is clicked
-  document.querySelectorAll('.mobile-nav-link').forEach(link => {
+  document.querySelectorAll('.mobile-nav-link').forEach((link) => {
     link.addEventListener('click', () => {
       menu.classList.add('hidden');
       iconMenu.classList.remove('hidden');

@@ -2,8 +2,6 @@ import { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ProjectCard } from './ProjectCard';
 
-// ─── Shared type (used by ProjectCard too) ─────────────────────────────────────
-
 export interface ProjectItem {
   id: string;
   title: string;
@@ -16,17 +14,15 @@ export interface ProjectItem {
   featured: boolean;
 }
 
-// ─── Filter categories ────────────────────────────────────────────────────────
-
-const FILTERS = ['All', 'Unity', 'Unreal', 'Web'] as const;
+const FILTERS = ['全部', 'Unity', '虚幻', 'Roblox', '策划', 'XR'] as const;
 type Filter = (typeof FILTERS)[number];
 
 function matchesFilter(project: ProjectItem, filter: Filter): boolean {
-  if (filter === 'All') return true;
-  return project.tags.some((t) => t.toLowerCase().includes(filter.toLowerCase()));
+  if (filter === '全部') return true;
+  if (filter === '虚幻') return project.tags.some((tag) => tag.toLowerCase().includes('unreal'));
+  if (filter === '策划') return project.tags.some((tag) => ['design', 'narrative', 'card game', 'serious game', 'moba'].includes(tag.toLowerCase()));
+  return project.tags.some((tag) => tag.toLowerCase().includes(filter.toLowerCase()));
 }
-
-// ─── FilterPill ───────────────────────────────────────────────────────────────
 
 function FilterPill({
   label,
@@ -62,63 +58,69 @@ function FilterPill({
   );
 }
 
-// ─── Projects ─────────────────────────────────────────────────────────────────
-
 export interface ProjectsProps {
   projects: ProjectItem[];
 }
 
 export function Projects({ projects }: ProjectsProps) {
-  const [activeFilter, setActiveFilter] = useState<Filter>('All');
+  const [activeFilter, setActiveFilter] = useState<Filter>('全部');
 
   const filtered = useMemo(
-    () => projects.filter((p) => matchesFilter(p, activeFilter)),
+    () => projects.filter((project) => matchesFilter(project, activeFilter)),
     [projects, activeFilter],
   );
 
   return (
     <div>
-      {/* Filter bar */}
-      <div className="flex flex-wrap items-center gap-2 mb-10" role="group" aria-label="Filter projects">
-        {FILTERS.map((f) => (
+      <div className="w-[56%] max-w-3xl mx-auto mb-10 rounded-xl overflow-hidden border border-white/8 bg-bg-surface/70" style={{ boxShadow: '0 8px 30px rgba(0,0,0,0.3)' }}>
+        <div className="aspect-video bg-black">
+          <iframe
+            src="https://player.bilibili.com/player.html?isOutside=true&aid=113876427349530&bvid=BV1oGfBYsErH&cid=28030339516&p=1&autoplay=0"
+            className="w-full h-full"
+            loading="lazy"
+            allowFullScreen
+            referrerPolicy="strict-origin-when-cross-origin"
+            title="作品集合集视频"
+          />
+        </div>
+      </div>
+
+      <div className="flex flex-wrap items-center gap-2 mb-10" role="group" aria-label="项目筛选">
+        {FILTERS.map((filter) => (
           <FilterPill
-            key={f}
-            label={f}
-            active={activeFilter === f}
-            onClick={() => setActiveFilter(f)}
+            key={filter}
+            label={filter}
+            active={activeFilter === filter}
+            onClick={() => setActiveFilter(filter)}
           />
         ))}
 
-        {/* Result count */}
         <span className="ml-auto font-mono text-[11px] text-gray-600">
           {filtered.length}&nbsp;
-          <span className="text-gray-700">project{filtered.length !== 1 ? 's' : ''}</span>
+          <span className="text-gray-700">个项目</span>
         </span>
       </div>
 
-      {/* Cards grid */}
-      <motion.div
-        layout
-        className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6"
-      >
-        <AnimatePresence mode="popLayout">
+      <AnimatePresence mode="wait" initial={false}>
+        <motion.div
+          key={activeFilter}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.22, ease: 'easeOut' }}
+          className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6"
+        >
           {filtered.length > 0 ? (
             filtered.map((project, i) => (
               <ProjectCard key={project.id} project={project} index={i} />
             ))
           ) : (
-            <motion.p
-              key="empty"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="col-span-full text-center font-mono text-sm text-gray-600 py-16"
-            >
-              // no projects match this filter
-            </motion.p>
+            <p className="col-span-full text-center font-mono text-sm text-gray-600 py-16">
+              // 当前筛选下没有项目
+            </p>
           )}
-        </AnimatePresence>
-      </motion.div>
+        </motion.div>
+      </AnimatePresence>
     </div>
   );
 }

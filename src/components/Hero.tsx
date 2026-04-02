@@ -2,14 +2,13 @@ import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { ParticleBackground } from './ParticleBackground';
 
-// ─── Typewriter ────────────────────────────────────────────────────────────────
-
 const ROLES = [
-  'Game Developer',
-  'Creative Coder',
-  'Unity Expert',
-  'Unreal Explorer',
-  'Pixel Artist',
+  '主策划',
+  '主程序',
+  '技术策划',
+  'UGC 玩法策划',
+  '独立游戏制作人',
+  'Unity 讲师',
 ];
 
 function TypewriterText() {
@@ -19,32 +18,23 @@ function TypewriterText() {
 
   useEffect(() => {
     const currentRole = ROLES[roleIndex];
-
     let timeout: ReturnType<typeof setTimeout>;
 
     if (!isDeleting) {
       if (displayText.length < currentRole.length) {
-        // Still typing
         timeout = setTimeout(
           () => setDisplayText(currentRole.slice(0, displayText.length + 1)),
           85,
         );
       } else {
-        // Finished typing — pause, then start deleting
         timeout = setTimeout(() => setIsDeleting(true), 2200);
       }
+    } else if (displayText.length > 0) {
+      timeout = setTimeout(() => setDisplayText(displayText.slice(0, -1)), 45);
     } else {
-      if (displayText.length > 0) {
-        // Still deleting
-        timeout = setTimeout(
-          () => setDisplayText(displayText.slice(0, -1)),
-          45,
-        );
-      } else {
-        // Finished deleting — move to next role
-        setIsDeleting(false);
-        setRoleIndex((i) => (i + 1) % ROLES.length);
-      }
+      setIsDeleting(false);
+      setRoleIndex((i) => (i + 1) % ROLES.length);
+      timeout = setTimeout(() => {}, 0);
     }
 
     return () => clearTimeout(timeout);
@@ -65,8 +55,6 @@ function TypewriterText() {
   );
 }
 
-// ─── Framer Motion variants ────────────────────────────────────────────────────
-
 const container = {
   hidden: {},
   show: {
@@ -86,18 +74,14 @@ const fadeUp = {
   },
 };
 
-// ─── Hero ──────────────────────────────────────────────────────────────────────
-
 export function Hero() {
   return (
     <section
       id="hero"
       className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden bg-bg-dark"
     >
-      {/* Canvas particle layer */}
       <ParticleBackground />
 
-      {/* Subtle radial glow behind content */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
@@ -107,34 +91,37 @@ export function Hero() {
         aria-hidden="true"
       />
 
-      {/* Main content */}
       <motion.div
         className="relative z-10 flex flex-col items-center text-center px-6 max-w-4xl mx-auto"
         variants={container}
         initial="hidden"
         animate="show"
       >
-        {/* Pre-title label */}
         <motion.p
           variants={fadeUp}
           className="font-mono text-xs md:text-sm text-neon-pink tracking-[0.3em] uppercase mb-6"
         >
-          // Portfolio
+          // 游戏开发者作品集
         </motion.p>
 
-        {/* Name with glitch effect */}
         <motion.div variants={fadeUp} className="mb-6">
           <h1 className="font-display text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-bold leading-none tracking-tight">
             <span
               className="glitch text-white"
-              data-text="Your Name"
+              data-text="tiansuupup"
             >
-              Your Name
+              tiansuupup
             </span>
           </h1>
         </motion.div>
 
-        {/* Typewriter subtitle */}
+        <motion.p
+          variants={fadeUp}
+          className="max-w-3xl text-sm sm:text-base md:text-lg text-gray-400 leading-relaxed mb-6"
+        >
+          我叫李天粟，是一名拥有多年游戏开发经验的开发者，曾担任主策划、主程序、技术策划、玩法设计师、关卡策划与 Unity 讲师，也有数据可视化与社区运营相关经历。
+        </motion.p>
+
         <motion.div
           variants={fadeUp}
           className="font-mono text-lg sm:text-xl md:text-2xl mb-10 h-8 flex items-center"
@@ -143,8 +130,7 @@ export function Hero() {
           <TypewriterText />
         </motion.div>
 
-        {/* CTA button */}
-        <motion.div variants={fadeUp}>
+        <motion.div variants={fadeUp} className="flex flex-wrap items-center justify-center gap-4">
           <motion.a
             href="#projects"
             className="inline-block font-mono text-sm px-8 py-3 border border-neon-cyan text-neon-cyan rounded transition-colors duration-300"
@@ -155,12 +141,23 @@ export function Hero() {
             }}
             whileTap={{ scale: 0.97 }}
           >
-            [ View My Work ]
+            [ 查看作品 ]
+          </motion.a>
+          <motion.a
+            href="/resume/Tiansu_Li_CV.pdf"
+            className="inline-block font-mono text-sm px-8 py-3 border border-white/10 text-gray-300 rounded transition-colors duration-300"
+            whileHover={{
+              scale: 1.04,
+              borderColor: 'rgba(255,255,255,0.25)',
+              backgroundColor: 'rgba(255,255,255,0.04)',
+            }}
+            whileTap={{ scale: 0.97 }}
+          >
+            [ 下载简历 ]
           </motion.a>
         </motion.div>
       </motion.div>
 
-      {/* Scroll indicator arrow — bottom center */}
       <motion.div
         className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2"
         initial={{ opacity: 0 }}
@@ -168,7 +165,7 @@ export function Hero() {
         transition={{ delay: 1.8, duration: 0.8 }}
         aria-hidden="true"
       >
-        <span className="font-mono text-xs text-gray-600 tracking-widest">SCROLL</span>
+        <span className="font-mono text-xs text-gray-600 tracking-widest">向下滚动</span>
         <motion.div
           animate={{ y: [0, 8, 0] }}
           transition={{ repeat: Infinity, duration: 1.6, ease: 'easeInOut' }}

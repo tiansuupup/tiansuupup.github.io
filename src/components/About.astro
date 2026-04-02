@@ -3,7 +3,6 @@ import { SkillTree } from './SkillTree';
 ---
 
 <section id="about" class="py-28 px-6 relative overflow-hidden">
-  <!-- Faint grid background -->
   <div
     class="absolute inset-0 pointer-events-none opacity-[0.025]"
     style="background-image: linear-gradient(#00FFD1 1px, transparent 1px), linear-gradient(90deg, #00FFD1 1px, transparent 1px); background-size: 48px 48px;"
@@ -11,72 +10,63 @@ import { SkillTree } from './SkillTree';
   ></div>
 
   <div class="relative mx-auto max-w-6xl">
-    <!-- Section heading -->
     <div class="mb-14" data-animate="fade-up">
-      <p class="font-mono text-xs text-neon-pink tracking-[0.3em] uppercase mb-3">// Section 01</p>
-      <h2 class="font-display text-4xl md:text-5xl font-bold text-white">About Me</h2>
+      <p class="font-mono text-xs text-neon-pink tracking-[0.3em] uppercase mb-3">// 第一部分</p>
+      <h2 class="font-display text-4xl md:text-5xl font-bold text-white">个人简介</h2>
       <div class="mt-4 w-16 h-0.5 bg-neon-cyan"></div>
     </div>
 
-    <!-- Two-column layout -->
     <div class="grid lg:grid-cols-2 gap-14 items-start">
-
-      <!-- ── Left column: avatar + bio ── -->
       <div class="flex flex-col gap-8">
-
-        <!-- Avatar card -->
         <div class="flex gap-6 items-start" data-animate="fade-up" style="transition-delay: 0.1s">
-          <!-- Placeholder avatar frame -->
           <div
             class="relative flex-shrink-0 w-24 h-24 rounded-lg border border-neon-cyan/30 bg-bg-surface overflow-hidden"
             style="box-shadow: 0 0 20px rgba(0,255,209,0.08);"
           >
-            <div class="absolute inset-0 flex items-center justify-center">
-              <span class="font-display text-3xl font-bold text-neon-cyan opacity-60" aria-hidden="true">YN</span>
-            </div>
-            <!-- Corner accent lines -->
+            <img
+              src="/images/profile/myphoto.webp"
+              alt="李天粟头像"
+              class="w-full h-full object-cover"
+              loading="lazy"
+            />
             <div class="absolute top-0 left-0 w-3 h-3 border-t-2 border-l-2 border-neon-cyan rounded-tl-lg" aria-hidden="true"></div>
             <div class="absolute top-0 right-0 w-3 h-3 border-t-2 border-r-2 border-neon-cyan rounded-tr-lg" aria-hidden="true"></div>
             <div class="absolute bottom-0 left-0 w-3 h-3 border-b-2 border-l-2 border-neon-cyan rounded-bl-lg" aria-hidden="true"></div>
             <div class="absolute bottom-0 right-0 w-3 h-3 border-b-2 border-r-2 border-neon-cyan rounded-br-lg" aria-hidden="true"></div>
           </div>
 
-          <!-- Name & title card -->
           <div>
-            <h3 class="font-display text-xl font-bold text-white mb-1">Your Name</h3>
-            <p class="font-mono text-xs text-neon-cyan mb-3">Game Developer</p>
-            <ul class="flex flex-wrap gap-2 list-none p-0 m-0" aria-label="Specialisations">
-              <li class="font-mono text-[10px] px-2 py-0.5 border border-neon-cyan/30 text-neon-cyan/70 rounded">🎮 Unity</li>
-              <li class="font-mono text-[10px] px-2 py-0.5 border border-neon-pink/30 text-neon-pink/70 rounded">⚡ Unreal</li>
-              <li class="font-mono text-[10px] px-2 py-0.5 border border-neon-gold/30 text-neon-gold/70 rounded">🌐 Web</li>
+            <h3 class="font-display text-xl font-bold text-white mb-1">李天粟</h3>
+            <p class="font-mono text-xs text-neon-cyan mb-3">游戏开发者 / 技术策划</p>
+            <ul class="flex flex-wrap gap-2 list-none p-0 m-0" aria-label="专长方向">
+              <li class="font-mono text-[10px] px-2 py-0.5 border border-neon-cyan/30 text-neon-cyan/70 rounded">Unity</li>
+              <li class="font-mono text-[10px] px-2 py-0.5 border border-neon-pink/30 text-neon-pink/70 rounded">虚幻</li>
+              <li class="font-mono text-[10px] px-2 py-0.5 border border-neon-gold/30 text-neon-gold/70 rounded">Roblox</li>
             </ul>
           </div>
         </div>
 
-        <!-- Bio paragraphs -->
         <div class="space-y-4 text-gray-400 leading-relaxed text-sm md:text-base" data-animate="fade-up" style="transition-delay: 0.18s">
           <p>
-            Hi — I'm a game developer who loves building experiences that feel
-            <span class="text-neon-cyan font-medium">alive</span>. I've shipped
-            titles in <span class="text-white font-medium">Unity</span> and
-            <span class="text-white font-medium">Unreal Engine</span>, from small jam
-            prototypes to multi-platform releases.
+            我叫李天粟，是一名拥有多年游戏开发经验的开发者，曾担任过
+            <span class="text-neon-cyan font-medium">主策划、主程序、技术策划、玩法设计师、关卡策划、Unity讲师</span>，
+            也有数据可视化工程师与游戏社区运营相关经历。
           </p>
           <p>
-            I care deeply about
-            <span class="text-neon-pink font-medium">game feel</span> — the invisible
-            layer of juice that turns a mechanic into a memory. That same obsession
-            bleeds into everything I build on the web.
+            我目前的工作职责是
+            <span class="text-neon-pink font-medium">主策划</span>，
+            主要负责一款 Roblox UGC 游戏的整体策划设计、技术迭代与项目管理等工作。此前我也负责过使用网易 Y3 编辑器与 Lua 进行 RPG 项目完整系统开发。
           </p>
-          <p>Off-screen: pixel art, synth-wave composition, and playing through every obscure indie game I can find.</p>
+          <p>
+            我持有美国东北大学游戏设计与科学硕士学位，以及新泽西州立罗格斯大学信息技术-游戏开发专精学士学位。我热爱独立游戏开发，也喜欢参加各类 GameJam 并在多个比赛中获得奖项。
+          </p>
         </div>
 
-        <!-- Quick-stat row -->
         <div class="grid grid-cols-3 gap-3 sm:gap-4">
           {[
-            { value: '5+',  label: 'Years XP',       delay: '0.26s' },
-            { value: '12+', label: 'Games Shipped',   delay: '0.34s' },
-            { value: '3',   label: 'Engines Used',    delay: '0.42s' },
+            { value: '20+', label: '独立游戏项目', delay: '0.26s' },
+            { value: '10+', label: '年以上开发经验', delay: '0.34s' },
+            { value: '4', label: '次 GameJam 获奖', delay: '0.42s' },
           ].map(({ value, label, delay }) => (
             <div
               class="bg-bg-surface border border-white/5 rounded-lg p-3 text-center"
@@ -88,14 +78,11 @@ import { SkillTree } from './SkillTree';
             </div>
           ))}
         </div>
-
       </div>
 
-      <!-- ── Right column: SkillTree React island ── -->
       <div data-animate="fade-left" style="transition-delay: 0.1s">
         <SkillTree client:visible />
       </div>
-
     </div>
   </div>
 </section>

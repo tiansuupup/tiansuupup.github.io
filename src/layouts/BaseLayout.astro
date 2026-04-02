@@ -11,48 +11,43 @@ interface Props {
 }
 
 const {
-  title = 'Portfolio | Game Developer',
-  description = 'Personal portfolio of a game developer — showcasing games, creative code, and interactive experiences.',
+  title = '李天粟 | 游戏开发者作品集',
+  description = '李天粟的游戏开发者作品集，涵盖 Unity、Roblox、Unreal、XR、技术策划与互动体验设计。',
   ogImage = '/og-image.png',
 } = Astro.props;
 
-const siteURL   = Astro.site ?? new URL('https://yourportfolio.dev');
+const siteURL = Astro.site ?? new URL('https://tiansuupup.github.io');
 const canonical = new URL(Astro.url.pathname, siteURL).href;
 const ogImageAbs = new URL(ogImage, siteURL).href;
 ---
 
 <!doctype html>
-<html lang="en" class="scroll-smooth">
+<html lang="zh-CN" class="scroll-smooth">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="generator" content={Astro.generator} />
     <meta name="theme-color" content="#0a0a0f" />
 
-    <!-- SEO -->
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
 
-    <!-- Open Graph -->
-    <meta property="og:type"        content="website" />
-    <meta property="og:url"         content={canonical} />
-    <meta property="og:title"       content={title} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:image"       content={ogImageAbs} />
-    <meta property="og:site_name"   content="Portfolio" />
+    <meta property="og:image" content={ogImageAbs} />
+    <meta property="og:site_name" content="李天粟作品集" />
 
-    <!-- Twitter Card -->
-    <meta name="twitter:card"        content="summary_large_image" />
-    <meta name="twitter:title"       content={title} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
-    <meta name="twitter:image"       content={ogImageAbs} />
+    <meta name="twitter:image" content={ogImageAbs} />
 
-    <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" href="/favicon.ico" />
 
-    <!-- Fonts — preconnect first, then stylesheet -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -60,13 +55,11 @@ const ogImageAbs = new URL(ogImage, siteURL).href;
       rel="stylesheet"
     />
 
-    <!-- Astro View Transitions (page navigation animations) -->
     <ClientRouter />
   </head>
 
   <body class="bg-bg-dark text-gray-100 font-sans antialiased">
-    <!-- a11y: skip navigation -->
-    <a href="#main-content" class="skip-link">Skip to content</a>
+    <a href="#main-content" class="skip-link">跳转到正文</a>
 
     <Navbar />
 
@@ -76,24 +69,41 @@ const ogImageAbs = new URL(ogImage, siteURL).href;
 
     <Footer />
 
-    <!-- Global scroll-reveal: adds .in-view when [data-animate] elements enter viewport -->
     <script>
-      const revealObserver = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              // Respect stagger-delay set inline via style
-              entry.target.classList.add('in-view');
-              revealObserver.unobserve(entry.target);
-            }
-          });
-        },
-        { threshold: 0.1, rootMargin: '-32px 0px' },
-      );
+      function initRevealAnimations() {
+        const animatedElements = Array.from(document.querySelectorAll('[data-animate]'));
+        if (animatedElements.length === 0) return;
 
-      document
-        .querySelectorAll('[data-animate]')
-        .forEach((el) => revealObserver.observe(el));
+        const revealIfNeeded = (el) => {
+          const rect = el.getBoundingClientRect();
+          if (rect.top < window.innerHeight * 0.9) {
+            el.classList.add('in-view');
+            return true;
+          }
+          return false;
+        };
+
+        const revealObserver = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('in-view');
+                revealObserver.unobserve(entry.target);
+              }
+            });
+          },
+          { threshold: 0.1, rootMargin: '-32px 0px' },
+        );
+
+        animatedElements.forEach((el) => {
+          if (!revealIfNeeded(el)) {
+            revealObserver.observe(el);
+          }
+        });
+      }
+
+      document.addEventListener('astro:page-load', initRevealAnimations);
+      initRevealAnimations();
     </script>
   </body>
 </html>
