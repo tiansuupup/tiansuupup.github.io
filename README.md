@@ -1,43 +1,59 @@
-# Astro Starter Kit: Minimal
+# Tiansu Li Portfolio Website
 
-```sh
-npm create astro@latest -- --template minimal
-```
+Personal portfolio site for Tiansu Li, focused on game development, technical design, interactive experiences, and selected commercial or independent projects.
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+Live site: <https://tiansuupup.github.io>
 
-## 🚀 Project Structure
+## Overview
 
-Inside of your Astro project, you'll see the following folders and files:
+This site is built as a polished portfolio experience rather than a generic profile page. It highlights:
+
+- Personal introduction and background
+- Project archive with detail pages
+- Skills and experience sections
+- Resume download and contact links
+- Visual showcases for games, XR work, and interactive experiments
+
+## Tech Stack
+
+- Astro
+- React
+- TypeScript
+- Tailwind CSS
+- Framer Motion
+
+## Project Structure
 
 ```text
 /
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
+|-- public/                 Static assets, resumes, project images
+|-- src/components/         Homepage and UI components
+|-- src/content/projects/   Project content entries
+|-- src/layouts/            Shared layout
+|-- src/pages/              Routes for homepage and project pages
+\-- src/styles/             Global styles
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+## Local Development
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+Run all commands from the project root:
 
-Any static assets, like images, can be placed in the `public/` directory.
+```bash
+npm install
+npm run dev
+```
 
-## 🧞 Commands
+Useful scripts:
 
-All commands are run from the root of the project, from a terminal:
+- `npm run dev` starts the local development server
+- `npm run build` creates the production build in `dist/`
+- `npm run preview` previews the production build locally
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+## Deployment
 
-## 👀 Want to learn more?
+This repository is intended for GitHub Pages deployment via the `tiansuupup.github.io` repository.
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+## Notes
+
+- `PLAN.md` and `CLAUDE.md` are local workflow notes and are intentionally ignored by Git.
+- Built output and dependencies such as `dist/`, `.astro/`, and `node_modules/` are also ignored.
